@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Canvas Playing</title>
+</head>
+<body>
+<canvas id="c" width="600" height="1000"></canvas>
+
+<script>
+	var c = document.querySelector("#c");
+	var ctx = c.getContext("2d");
+	// var radians = 1 * (Math.PI/180);
+//define the function to draw a pattern
+// 	function drawBox() {
+// 		ctx.fillStyle = "green";
+// 		ctx.strokeStyle = "#ff00ff"
+// 		ctx.strokeRect(50, 50, 100, 100);
+// 		ctx.beginPath();
+// 		ctx.moveTo(75, 75);
+// 		ctx.lineTo(125, 75);
+// 		ctx.lineTo(125, 125);
+// 		ctx.lineTo(75, 75);
+// 		ctx.fill();
+// 	}
+// 	drawBox();
+// 	ctx.save();
+// // //test scale, makes it larger/smaller
+// 	ctx.scale(3, 3);
+// 	drawBox();
+// // //test translate, move away
+// 	ctx.translate(10, 10);
+// 	drawBox();
+// 	ctx.restore();
+// // //test rotate, take in radian as parameter
+// 	ctx.rotate(radians);
+// 	drawBox();
+//  	ctx.fillStyle = "blue";
+// 	ctx.fillRect(0,0,50,50);
+
+// 	// Save state with blue fill
+// 	ctx.save();
+// 	ctx.fillStyle = "green";
+// 	ctx.fillRect(100,100,10,10);
+// 	// Restore to blue fill
+// 	ctx.restore();
+
+// 	ctx.fillRect(200,10,20,20);
+ //    ctx.font = "36pt Impact";
+ //    ctx.lineWidth = 3;
+ //    ctx.textAlign = "center";
+ //    ctx.fillStyle = "white";
+	// ctx.strokeStyle = "black"
+	// ctx.strokeText("CANVAS MEMES!", c.width/2, 50);
+
+	function drawGreyImage(img) {
+
+		ctx.drawImage(img, 0, 0);
+		var imageData = ctx.getImageData(0, 0, img.width, img.height);
+		var data = imageData.data;
+		for (var i = 0; i < data.length; i += 4) {
+			var avg = (data[i] + data[i+1] + data[i+2]) / 3;
+			data[i] = avg;
+			data[i+1] = avg;
+			data[i+2] = avg;
+		}
+		ctx.putImageData(imageData, 0, 0);
+
+	}
+
+	function drawInvertImage(img) {
+
+		ctx.drawImage(img, 0, 0);
+		var imageData = ctx.getImageData(0, 0, img.width, img.height);
+		var data = imageData.data;
+		for (var i = 0; i < data.length; i += 4) {
+			data[i] = 255 - data[i];
+			data[i+1] = 255 - data[i+1];
+			data[i+2] = 255 - data[i+2];
+		}
+		ctx.putImageData(imageData, 0, 0);
+
+	}
+	var img = new Image();
+	img.onload = function () {
+		drawInvertImage(this);
+	}
+	img.src = "../figures/redwoods_state_park.jpg";
+
+</script>
+</body>
+</html>
